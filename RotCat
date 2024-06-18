@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Xác định độ chặt bằng phễu rót cát</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label, input, button {
+            display: block;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+        }
+        h1, h2 {
+            margin-top: 20px;
+        }
+        p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Xác định độ chặt bằng phễu rót cát</h1>
+    <form id="calcForm">
+        <h2>Xác định dung trọng hiện trường</h2>
+        <label for="A">Khối lượng mẫu ẩm lấy lên từ hố đào (g):</label>
+        <input type="number" id="A" name="A" step="0.1" required>
+
+        <label for="B">Khối lượng cát ban đầu (g):</label>
+        <input type="number" id="B" name="B" step="0.1" required>
+
+        <label for="C">Khối lượng cát còn lại (g):</label>
+        <input type="number" id="C" name="C" step="0.1" required>
+
+        <label for="D">Khối lượng cát trong côn + đế (g):</label>
+        <input type="number" id="D" name="D" step="0.1" required>
+
+        <label for="F">Dung trọng xốp của cát (g/cm³):</label>
+        <input type="number" id="F" name="F" step="0.001" required>
+
+        <h2>Xác định độ ẩm</h2>
+        <label for="I">Khối lượng mẫu ẩm + khay (g):</label>
+        <input type="number" id="I" name="I" step="0.1" required>
+       
+        <label for="M">Khối lượng mẫu khô + khay (g):</label>
+        <input type="number" id="M" name="M" step="0.1" required>
+
+        <label for="K">Khối lượng khay (g):</label>
+        <input type="number" id="K" name="K" step="0.1" required>
+
+        <h2>Xác định kết quả độ chặt lu lèn</h2>
+        <label for="V">Dung trọng khô lớn nhất (g/cm³):</label>
+        <input type="number" id="V" name="V" step="0.001" required>
+
+        <button type="button" onclick="calculate()">Calculate</button>
+    </form>
+
+    <h2>Kết quả tính toán</h2>
+    <p id="result_G">Thể tích hố đào: </p>
+    <p id="result_H">Dung trọng hiện trường (ướt): </p>
+    <p id="result_L">Khối lượng nước: </p>
+    <p id="result_U">Dung trọng khô: </p>
+    <p id="result_Q">Độ chặt thực tế: </p>
+
+    <script>
+        function calculate() {
+            // Lấy các giá trị từ form
+            const A = parseFloat(document.getElementById('A').value);
+            const B = parseFloat(document.getElementById('B').value);
+            const C = parseFloat(document.getElementById('C').value);
+            const D = parseFloat(document.getElementById('D').value);
+            const F = parseFloat(document.getElementById('F').value);
+            const I = parseFloat(document.getElementById('I').value);
+            const K = parseFloat(document.getElementById('K').value);
+            const M = parseFloat(document.getElementById('M').value);
+            const V = parseFloat(document.getElementById('V').value);
+
+            // Tính toán theo công thức
+            const E = B - C - D;
+            const G = E / F;
+            const H = A / G;
+            const L = I - M;
+            const X = (L / (M - K)) * 100;
+            const U = H / (1 + 0.01 * X);
+            const Q = (U / V) * 100;
+
+            // Hiển thị kết quả
+            document.getElementById('result_G').innerText = `Thể tích hố đào: ${G.toFixed(3)} cm³`;
+            document.getElementById('result_H').innerText = `Dung trọng hiện trường (ướt): ${H.toFixed(3)} g/cm³`;
+            document.getElementById('result_L').innerText = `Khối lượng nước: ${L.toFixed(1)} g`;
+            document.getElementById('result_U').innerText = `Dung trọng khô: ${U.toFixed(3)} g/cm³`;
+            document.getElementById('result_Q').innerText = `Độ chặt thực tế: ${Q.toFixed(1)} %`;
+        }
+    </script>
+</body>
+</html>
